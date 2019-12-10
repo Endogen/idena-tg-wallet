@@ -1,0 +1,5 @@
+{
+    "handle": "send",
+    "category": "Wallet",
+    "description": "Send DNA from your bot wallet"
+}
