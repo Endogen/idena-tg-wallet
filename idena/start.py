@@ -9,8 +9,8 @@ from idena.config import ConfigManager as Cfg
 from logging.handlers import TimedRotatingFileHandler
 
 
-# TODO: In case database will be removed on the fly, check if user / address is
-# available and if not, create them
+# TODO: Add userbot or inline mode
+# TODO: In case database will be removed on the fly, check if user / address is available. If not, create.
 class Idena:
 
     def __init__(self):

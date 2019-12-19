@@ -43,16 +43,18 @@ class TelegramBot:
 
         host = self.config.get("idena", "host")
         port = self.config.get("idena", "port")
-        self.api = IdenaAPI(host, port)
+        timeout = self.config.get("idena", "timeout")
+        api_key = self.config.get("idena", "api_key")
+        self.api = IdenaAPI(host, port, timeout, api_key)
 
         try:
             node_version = self.api.node_version()
-            if node_version["success"]:
-                msg = f"{emo.CHECK} Successfully connected to IDENA node version {node_version['data']}"
-                logging.info(msg)
-            else:
+            if "error" in node_version:
                 msg = f"{emo.ERROR} Couldn't connect to IDENA node on host {host} and port {port}"
                 raise Exception(f"{msg} - Result: {node_version}")
+            else:
+                msg = f"{emo.CHECK} Successfully connected to IDENA node version {node_version['result']}"
+                logging.info(msg)
         except Exception as e:
             logging.error(e)
             raise SystemExit

@@ -132,6 +132,7 @@ dmypy.json
 
 .idea
 data/
+logs/
 backups/
 qr_codes/
 token.json

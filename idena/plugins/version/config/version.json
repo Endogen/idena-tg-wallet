@@ -1,0 +1,5 @@
+{
+    "handle": "version",
+    "category": "Node",
+    "description": "Show version number of node"
+}

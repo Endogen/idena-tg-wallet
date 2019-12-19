@@ -1,4 +1,5 @@
 import os
+import logging
 import idena.emoji as emo
 import idena.constants as con
 
@@ -27,12 +28,16 @@ class Deposit(IdenaPlugin):
 
         logo = os.path.join(self.get_plg_path(), con.DIR_RES, self.TRON_LOGO)
 
-        address = self.chk(self.api().address())
+        address = self.api().address()
 
-        if not address:
-            msg = f"{emo.ERROR} Couldn't retrieve address. Node offline?"
+        if "error" in address:
+            error = address["error"]["message"]
+            msg = f"{emo.ERROR} Couldn't retrieve address: {error}"
             update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+            logging.error(msg)
             return
+
+        address = address["result"]
 
         myqr.run(
             address,

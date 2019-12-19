@@ -27,27 +27,8 @@ class Admin(IdenaPlugin):
         plugin = args[0].lower()
         args.pop(0)
 
-        # ---- Execute raw SQL ----
-        # TODO: Add possibility to also interact with global DB
-        if command == "sql":
-            db = args[0].lower()
-            args.pop(0)
-
-            sql = " ".join(args)
-            res = self.execute_sql(sql, plugin=plugin, db_name=db)
-
-            if res["success"]:
-                if res["data"]:
-                    msg = '\n'.join(str(s) for s in res["data"])
-                else:
-                    msg = f"{emo.INFO} No data returned"
-            else:
-                msg = f"{emo.ERROR} {res['data']}"
-
-            update.message.reply_text(msg)
-
         # ---- Change configuration ----
-        elif command == "cfg":
+        if command == "cfg":
             conf = args[0].lower()
             args.pop(0)
 

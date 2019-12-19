@@ -5,19 +5,21 @@ from telegram import ParseMode
 from idena.plugin import IdenaPlugin
 
 
-class Address(IdenaPlugin):
+class Version(IdenaPlugin):
 
     @IdenaPlugin.threaded
     @IdenaPlugin.send_typing
     def execute(self, bot, update, args):
-        address = self.api().address()
+        node = self.api().node_version()
 
-        if "error" in address:
-            error = address["error"]["message"]
-            msg = f"{emo.ERROR} Couldn't retrieve address: {error}"
+        if "error" in node:
+            error = node["error"]["message"]
+            msg = f"{emo.ERROR} Couldn't retrieve node version: {error}"
             update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
             logging.error(msg)
             return
 
-        msg = f"Your DNA address:\n`{address['result']}`"
+        node = node["result"]
+
+        msg = f"Node Version: `{node}`"
         update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)

@@ -6,6 +6,8 @@
         "notify_on_error": true
     },
     "idena": {
+        "api_key": null,
+        "timeout": 3,
         "host": "localhost",
         "port": 9009
     },
@@ -22,6 +24,6 @@
         "url": "https://somedomain.com"
     },
     "database": {
-        "use_db": true
+        "use_db": false
     }
 }

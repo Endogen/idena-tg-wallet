@@ -1,0 +1,5 @@
+{
+    "handle": "sync",
+    "category": "Node",
+    "description": "Check if your node is synced"
+}

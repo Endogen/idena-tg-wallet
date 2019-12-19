@@ -1,12 +1,10 @@
 import logging
 import idena.emoji as emo
-import idena.constants as con
 
 from telegram import ParseMode
 from idena.plugin import IdenaPlugin
 
 
-# TODO: Take in account the fee. Always the same?
 class Send(IdenaPlugin):
 
     @IdenaPlugin.threaded
@@ -30,25 +28,41 @@ class Send(IdenaPlugin):
             return
 
         to_address = args[1]
-        from_address = self.chk(self.api().address())
+        from_address = self.api().address()
 
-        if not from_address:
-            msg = f"{emo.ERROR} Couldn't retrieve address. Node offline?"
+        if "error" in from_address:
+            error = from_address["error"]["message"]
+            msg = f"{emo.ERROR} Couldn't retrieve sending address: {error}"
             update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+            logging.error(msg)
             return
 
-        balance = self.chk(self.api().balance(from_address))
+        from_address = from_address["result"]
+        balance = self.api().balance(from_address)
 
-        if not balance:
-            msg = f"{emo.ERROR} Couldn't retrieve balance. Node offline?"
+        if "error" in balance:
+            error = balance["error"]["message"]
+            msg = f"{emo.ERROR} Couldn't retrieve balance: {error}"
             update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+            logging.error(msg)
             return
 
-        balance = f"{float(balance['balance']):.2f}"
+        balance = balance["result"]["balance"]
 
-        send = self.chk(self.api().send(from_address, to_address, float(amount)))
-
-        if not send:
-            msg = f"{emo.ERROR} Couldn't send DNA. Node offline?"
+        if float(balance) < float(amount):
+            msg = f"{emo.ERROR} No sufficient funds. Balance is `{balance}` DNA"
             update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+            logging.error(msg)
             return
+
+        send = self.api().send(from_address, to_address, float(amount))
+
+        if "error" in send:
+            error = send["error"]["message"]
+            msg = f"{emo.ERROR} Couldn't send DNA: {error}"
+            update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+            logging.error(msg)
+            return
+
+        msg = f"{emo.CHECK} Successfully sent"
+        update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)

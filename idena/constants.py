@@ -1,6 +1,7 @@
 import os
 
 # Default transaction fee
+# TODO: There is no fixed fee?
 DNA_FEE = 0.1
 
 # Project folders

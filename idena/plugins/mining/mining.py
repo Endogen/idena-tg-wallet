@@ -1,9 +1,12 @@
 import idena.emoji as emo
+import logging
 
 from telegram import ParseMode
 from idena.plugin import IdenaPlugin
 
 
+# TODO: go_online() and go_offline() needs an argument?!?
+# TODO: Maybe provide two commands (go_online % go_offline)
 class Mining(IdenaPlugin):
 
     @IdenaPlugin.threaded
@@ -18,15 +21,17 @@ class Mining(IdenaPlugin):
         argument = args[0].lower()
 
         if argument == "on":
-            mining = self.chk(self.api().go_online())
+            mining = self.api().go_online(self.api().address()["result"])
         elif argument == "off":
-            mining = self.chk(self.api().go_offline())
+            mining = self.api().go_offline(self.api().address()["result"])
         else:
-            mining = None
+            mining = {"error": {"message": "Only 'on' and 'off' are valid values"}}
 
-        if not mining:
-            msg = f"{emo.ERROR} Couldn't set mining to `{argument}`. Node offline?"
+        if "error" in mining:
+            error = mining["error"]["message"]
+            msg = f"{emo.ERROR} Couldn't set mining to *{argument}*: {error}"
             update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+            logging.error(msg)
             return
 
-        update.message.reply_text(f"`{mining}`", parse_mode=ParseMode.MARKDOWN)
+        update.message.reply_text(f"`{mining['result']}`", parse_mode=ParseMode.MARKDOWN)

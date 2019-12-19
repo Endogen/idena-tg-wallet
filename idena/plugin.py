@@ -105,14 +105,6 @@ class IdenaPlugin:
     def api(self) -> IdenaAPI:
         return self._tgb.api
 
-    def chk(self, data):
-        if data and data["success"]:
-            return data["data"]
-        else:
-            msg = f"{emo.ERROR} RFC Call returned {data}"
-            logging.error(msg)
-            return None
-
     def get_global_resource(self, filename):
         """ Return the content of the given file
         from the global 'resource' directory """
