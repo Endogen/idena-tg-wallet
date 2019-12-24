@@ -1,5 +1,5 @@
 {
     "handle": "identity",
-    "category": "Wallet",
+    "category": "Identity",
     "description": "Show details about my identity"
 }

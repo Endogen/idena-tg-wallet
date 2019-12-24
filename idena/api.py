@@ -118,23 +118,23 @@ class IdenaAPI:
         return self._request(self.url, payload)
 
     # TODO: Not working! Which argument to use?
-    def go_online(self, address, api_key=None):
+    def go_online(self, api_key=None):
         """ Go online, serve as a valid node and start mining """
         payload = {
             "key": api_key if api_key else self._api_key,
             "method": "dna_becomeOnline",
-            "params": [address],
+            "params": [{}],
             "id": 1
         }
         return self._request(self.url, payload)
 
     # TODO: Not working! Which argument to use?
-    def go_offline(self, address, api_key=None):
+    def go_offline(self, api_key=None):
         """ Go offline, do not serve as a node and stop mining """
         payload = {
             "key": api_key if api_key else self._api_key,
             "method": "dna_becomeOffline",
-            "params": [address],
+            "params": [{}],
             "id": 1
         }
         return self._request(self.url, payload)

@@ -42,8 +42,7 @@ class Identity(IdenaPlugin):
 
         identity = identity["result"]
 
-        msg = f"Stake: {identity['stake']}\n" \
-              f"Invites: {identity['invites']}\n" \
+        msg = f"Invites: {identity['invites']}\n" \
               f"Age: {identity['age']}\n" \
               f"State: {identity['state']}\n" \
               f"Required Flips: {identity['requiredFlips']}\n" \
