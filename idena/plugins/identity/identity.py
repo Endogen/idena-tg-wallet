@@ -42,17 +42,17 @@ class Identity(IdenaPlugin):
 
         identity = identity["result"]
 
-        msg = f"Invites: {identity['invites']}\n" \
-              f"Age: {identity['age']}\n" \
-              f"State: {identity['state']}\n" \
-              f"Required Flips: {identity['requiredFlips']}\n" \
-              f"Made Flips: {identity['madeFlips']}\n" \
-              f"Qualified Flips: {identity['totalQualifiedFlips']}\n" \
-              f"Short Flip Points: {identity['totalShortFlipPoints']}\n" \
-              f"Flips: {identity['flips']}\n" \
-              f"Online: {identity['online']}\n" \
-              f"Generation: {identity['generation']}\n" \
-              f"Code: {identity['code']}\n" \
-              f"Penalty: {identity['penalty']}\n"
+        msg = f"*General*\n"
+        msg += f"` {'Age:':<13} {identity['age']}`\n"
+        msg += f"` {'State:':<13} {identity['state']}`\n"
+        msg += f"` {'Online:':<13} {identity['online']}`\n"
+        msg += f"` {'Invites:':<13} {identity['invites']}`\n"
+        msg += f"` {'Penalty:':<13} {identity['penalty']}`\n"
+        msg += f"` {'Generation:':<13} {identity['generation']}`\n\n"
+        msg += f"*Flips*\n"
+        msg += f"` {'Required:':<13} {identity['requiredFlips']}`\n"
+        msg += f"` {'Made:':<13} {identity['madeFlips']}`\n"
+        msg += f"` {'Qualified:':<13} {identity['totalQualifiedFlips']}`\n"
+        msg += f"` {'Short Points:':<13} {identity['totalShortFlipPoints']}`\n"
 
         update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
