@@ -19,5 +19,8 @@ class Address(IdenaPlugin):
             logging.error(msg)
             return
 
-        msg = f"Your DNA address:\n`{address['result']}`"
+        msg = f"{emo.DNA} Your DNA address"
+        update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+
+        msg = f"`{address['result']}`"
         update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
