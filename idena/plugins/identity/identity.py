@@ -53,6 +53,6 @@ class Identity(IdenaPlugin):
         msg += f"` {'Required:':<13} {identity['requiredFlips']}`\n"
         msg += f"` {'Made:':<13} {identity['madeFlips']}`\n"
         msg += f"` {'Qualified:':<13} {identity['totalQualifiedFlips']}`\n"
-        msg += f"` {'Short Points:':<13} {identity['totalShortFlipPoints']}`\n"
+        msg += f"` {'Short Points:':<13} {identity['totalShortFlipPoints']}`"
 
         update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
