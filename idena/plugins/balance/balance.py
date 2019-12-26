@@ -100,7 +100,7 @@ class Balance(IdenaPlugin):
         # Send "balance changed" message to admins
         for admin in self.global_config.get("admin", "ids"):
             try:
-                msg = f"{emo.BELL} Balance changed: {balance} DNA"
+                msg = f"{emo.BELL} Balance: `{balance:.2f}` DNA"
                 bot.send_message(admin, msg, parse_mode=ParseMode.MARKDOWN)
             except Exception as e:
                 msg = f"Couldn't send 'balance changed' message to ID {str(admin)}: {e}"

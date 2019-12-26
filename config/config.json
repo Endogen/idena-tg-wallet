@@ -6,7 +6,7 @@
         "notify_on_error": true
     },
     "idena": {
-        "api_key": null,
+        "api_key": "dave",
         "timeout": 3,
         "host": "localhost",
         "port": 9009
