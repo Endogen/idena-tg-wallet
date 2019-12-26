@@ -1,5 +1,11 @@
 {
     "handle": "balance",
     "category": "Wallet",
-    "description": "Show balance of your DNA wallet"
+    "description": "Show balance of your DNA wallet",
+    "balance_check": {
+        "active": true,
+        "interval": 10,
+        "threshold": 1,
+        "balance": 16907.727174029824
+    }
 }
