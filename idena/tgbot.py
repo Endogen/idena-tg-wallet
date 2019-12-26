@@ -72,7 +72,7 @@ class TelegramBot:
         # Send message to admin
         for admin in config.get("admin", "ids"):
             try:
-                self.updater.bot.send_message(admin, "Bot is up and running!")
+                self.updater.bot.send_message(admin, f"{emo.DONE} Bot is up and running!")
             except Exception as e:
                 logging.warning(f"Couldn't send startup message to ID {admin}: {e}")
 
