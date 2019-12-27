@@ -117,7 +117,6 @@ class IdenaAPI:
         }
         return self._request(self.url, payload)
 
-    # TODO: Not working! Which argument to use?
     def go_online(self, api_key=None):
         """ Go online, serve as a valid node and start mining """
         payload = {
@@ -128,7 +127,6 @@ class IdenaAPI:
         }
         return self._request(self.url, payload)
 
-    # TODO: Not working! Which argument to use?
     def go_offline(self, api_key=None):
         """ Go offline, do not serve as a node and stop mining """
         payload = {
@@ -221,13 +219,21 @@ class IdenaAPI:
         }
         return self._request(self.url, payload)
 
-    # TODO: Untested!
     def export_key(self, password, api_key=None):
-        """ Export private key for your identity """
+        """ Export private key to backup your identity """
         payload = {
             "key": api_key if api_key else self._api_key,
             "method": "dna_exportKey",
             "params": [password],
+            "id": 1
+        }
+        return self._request(self.url, payload)
+
+    def enode(self, api_key=None):
+        """ Get info abut enode: ID, IP and Port """
+        payload = {
+            "key": api_key if api_key else self._api_key,
+            "method": "net_enode",
             "id": 1
         }
         return self._request(self.url, payload)
