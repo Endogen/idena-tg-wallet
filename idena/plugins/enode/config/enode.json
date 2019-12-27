@@ -1,0 +1,5 @@
+{
+    "handle": "enode",
+    "category": "Node",
+    "description": "Get enode info"
+}
