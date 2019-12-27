@@ -14,6 +14,7 @@ The bot is build around the [python-telegram-bot](https://github.com/python-tele
 
 ### IDENA specific features
 * Sending DNA coins to addresses
+* Notifications about DNA balance changes
 * Generating QR-Code (of address) for deposits
 * Enable / disable mining
 * Kill your identity
