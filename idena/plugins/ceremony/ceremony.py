@@ -7,6 +7,8 @@ from idena.plugin import IdenaPlugin
 
 class Ceremony(IdenaPlugin):
 
+    @IdenaPlugin.threaded
+    @IdenaPlugin.send_typing
     def execute(self, bot, update, args):
         ceremony = self.api().ceremony_intervals()
 
