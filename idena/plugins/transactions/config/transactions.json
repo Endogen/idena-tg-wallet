@@ -2,5 +2,5 @@
     "handle": "transactions",
     "category": "Wallet",
     "description": "Show your transactions",
-    "trx_display": 300
+    "trx_display": 5
 }
