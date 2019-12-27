@@ -6,7 +6,6 @@ from telegram import ParseMode
 from idena.plugin import IdenaPlugin
 
 
-# TODO: Add pending transactions
 class Transactions(IdenaPlugin):
 
     _URL = "https://scan.idena.io/tx?tx="
@@ -59,6 +58,38 @@ class Transactions(IdenaPlugin):
         if not self.count:
             self.count = self.config.get("trx_display")
 
+        # ----- Pending Transactions -----
+
+        if args and args[0].lower() == "pending":
+            pending = self.api().pending_transactions(address, self.count)
+
+            if "error" in pending:
+                error = pending["error"]["message"]
+                msg = f"{emo.ERROR} Couldn't retrieve pending transactions: {error}"
+                update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+                logging.error(msg)
+                return
+
+            pending = pending["result"]["transactions"]
+
+            if not pending:
+                msg = f"{emo.INFO} No pending transactions"
+                update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+                return
+
+            self.count = len(pending) if len(pending) < self.count else self.count
+
+            current = 0
+            for transaction in pending:
+                if current > self.count:
+                    break
+                else:
+                    current += 1
+
+                self._create_message(update, transaction)
+
+            return
+
         transactions = self.api().transactions(address, self.count)
 
         if "error" in transactions:
@@ -85,29 +116,26 @@ class Transactions(IdenaPlugin):
         type = transaction["type"]
         date = transaction["timestamp"]
         link = f"{self._URL}{transaction['hash']}"
-        icon = "❓"
-
-        # TODO: Add more transaction types
-        # TODO: Transfer icons to emoji class
+        icon = f"{emo.QUESTION}"
 
         if type == "sendTx":
-            icon = "💰"
+            icon = f"{emo.MONEY}"
         elif type == "invite":
-            icon = "🗣‍"
+            icon = f"{emo.SPEAKING}‍"
         elif type == "submitFlip":
-            icon = "🖼"
+            icon = f"{emo.PICTURE}"
         elif type == "online":
-            icon = "🟢"
+            icon = f"{emo.GREEN}"
         elif type == "offline":
-            icon = "🔴"
+            icon = f"{emo.RED}"
         elif type == "submitLongAnswers":
-            icon = "➿"
+            icon = f"{emo.LONG}"
         elif type == "submitShortAnswers":
-            icon = "➰"
+            icon = f"{emo.SHORT}"
         elif type == "evidence":
-            icon = "👁"
+            icon = f"{emo.EYE}"
         elif type == "submitAnswersHash":
-            icon = "🎫"
+            icon = f"{emo.IDENTITY}"
 
         msg = f"`Type: {icon} {type}`\n" \
               f"`Date: {utl.unix2datetime(date)}`\n" \
