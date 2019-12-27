@@ -13,8 +13,9 @@ class Transactions(IdenaPlugin):
 
     hash = None
     count = None
-    address = None
 
+    @IdenaPlugin.threaded
+    @IdenaPlugin.send_typing
     def execute(self, bot, update, args):
         kw_list = utl.get_kw(args)
 
@@ -53,12 +54,12 @@ class Transactions(IdenaPlugin):
             logging.error(msg)
             return
 
-        self.address = address["result"]
+        address = address["result"]
 
         if not self.count:
             self.count = self.config.get("trx_display")
 
-        transactions = self.api().transactions(self.address, self.count)
+        transactions = self.api().transactions(address, self.count)
 
         if "error" in transactions:
             error = transactions["error"]["message"]
@@ -84,8 +85,31 @@ class Transactions(IdenaPlugin):
         type = transaction["type"]
         date = transaction["timestamp"]
         link = f"{self._URL}{transaction['hash']}"
+        icon = "❓"
 
-        msg = f"`Type: {type}`\n" \
+        # TODO: Add more transaction types
+        # TODO: Transfer icons to emoji class
+
+        if type == "sendTx":
+            icon = "💰"
+        elif type == "invite":
+            icon = "🗣‍"
+        elif type == "submitFlip":
+            icon = "🖼"
+        elif type == "online":
+            icon = "🟢"
+        elif type == "offline":
+            icon = "🔴"
+        elif type == "submitLongAnswers":
+            icon = "➿"
+        elif type == "submitShortAnswers":
+            icon = "➰"
+        elif type == "evidence":
+            icon = "👁"
+        elif type == "submitAnswersHash":
+            icon = "🎫"
+
+        msg = f"`Type: {icon} {type}`\n" \
               f"`Date: {utl.unix2datetime(date)}`\n" \
               f"`Link: `[Link to Block Explorer]({link})"
 

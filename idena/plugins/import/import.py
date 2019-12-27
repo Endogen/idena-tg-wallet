@@ -7,6 +7,8 @@ from idena.plugin import IdenaPlugin
 
 class Import(IdenaPlugin):
 
+    @IdenaPlugin.threaded
+    @IdenaPlugin.send_typing
     def execute(self, bot, update, args):
         if len(args) != 2:
             update.message.reply_text(
