@@ -38,6 +38,10 @@ def build_menu(buttons, n_cols=1, header_buttons=None, footer_buttons=None):
     return menu
 
 
+def is_bool(v):
+    return v.lower() in ("yes", "true", "t", "1", "no", "false", "f", "0")
+
+
 def str2bool(v):
     return v.lower() in ("yes", "true", "t", "1")
 
@@ -67,3 +71,34 @@ def split_msg(msg, max_len=None, split_char="\n", only_one=False):
 def encode_url(trxid):
     import urllib.parse as ul
     return ul.quote_plus(trxid)
+
+
+def unix2datetime(seconds, millies=False):
+    from datetime import datetime
+
+    try:
+        seconds = int(seconds)
+    except:
+        return None
+
+    if millies:
+        seconds /= 1000
+
+    return datetime.utcfromtimestamp(seconds).strftime('%Y-%m-%d %H:%M:%S')
+
+
+# Get list of keywords or value of keyword
+def get_kw(args, keyword=None, fallback=None):
+    keywords = dict()
+
+    if args:
+        for arg in args:
+            if "=" in arg:
+                kv = arg.split("=")
+                v = str2bool(kv[1]) if is_bool(kv[1]) else kv[1]
+                keywords[kv[0]] = v
+
+    if keyword:
+        return keywords.get(keyword, fallback)
+
+    return keywords
