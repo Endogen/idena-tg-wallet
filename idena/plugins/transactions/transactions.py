@@ -119,6 +119,8 @@ class Transactions(IdenaPlugin):
         icon = f"{emo.QUESTION}"
 
         if type == "sendTx":
+            icon = f"{emo.SEND}"
+        elif type == "send":
             icon = f"{emo.MONEY}"
         elif type == "invite":
             icon = f"{emo.SPEAKING}‍"
