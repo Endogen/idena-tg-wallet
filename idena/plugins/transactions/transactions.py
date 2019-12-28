@@ -200,6 +200,9 @@ class Transactions(IdenaPlugin):
             # Save transaction as last one
             self.config.set(transaction["timestamp"], "balance_check", "last")
 
+            if last == 0:
+                return
+
             # Send "received DNA" message to admins
             for admin in self.global_config.get("admin", "ids"):
                 try:
