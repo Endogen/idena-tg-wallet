@@ -53,7 +53,6 @@ class Balance(IdenaPlugin):
         update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
     def _balance_check(self, bot, job):
-        print("START")
         address = self.api().address()
 
         if "error" in address:
@@ -94,16 +93,6 @@ class Balance(IdenaPlugin):
         if not saved_balance:
             saved_balance = 0
 
-        from datetime import datetime
-        now = datetime.now()
-        dt_string = now.strftime("%d.%m.%Y %H:%M:%S")
-
-        print(f"- DateTime     :", dt_string)
-        print(f"- Threshold    : {str(threshold)}")
-        print(f"- Saved Balance: {str(saved_balance)}")
-        print(f"- Balance      : {str(balance)}")
-        print(f"- Difference   : {str(balance - saved_balance)}")
-
         # Check if threshold reached
         if balance <= (saved_balance + threshold):
             # Save new balance
@@ -122,4 +111,3 @@ class Balance(IdenaPlugin):
 
         # Save new balance
         self.config.set(balance, "balance_check", "balance")
-        print("END - NOTIFY")
