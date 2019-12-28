@@ -2,5 +2,10 @@
     "handle": "transactions",
     "category": "Wallet",
     "description": "Show your transactions",
-    "trx_display": 5
+    "trx_display": 5,
+    "balance_check": {
+        "active": true,
+        "interval": 20,
+        "last": 1577574997
+    }
 }
