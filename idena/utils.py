@@ -102,3 +102,8 @@ def get_kw(args, keyword=None, fallback=None):
         return keywords.get(keyword, fallback)
 
     return keywords
+
+
+def now():
+    from datetime import datetime
+    return datetime.now().strftime("%d.%m.%Y %H:%M:%S")
