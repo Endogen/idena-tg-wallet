@@ -4,8 +4,8 @@
     "description": "Show balance of your DNA wallet",
     "balance_check": {
         "active": true,
-        "interval": 10,
-        "threshold": 1,
+        "interval": 20,
+        "threshold": 5,
         "balance": 0
     }
 }
