@@ -3,7 +3,7 @@
     "category": "Wallet",
     "description": "Show balance of your DNA wallet",
     "balance_check": {
-        "active": true,
+        "active": false,
         "interval": 20,
         "threshold": 5,
         "balance": 0
