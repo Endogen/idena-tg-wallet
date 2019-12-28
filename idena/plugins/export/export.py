@@ -25,7 +25,7 @@ class Export(IdenaPlugin):
             logging.error(msg)
             return
 
-        msg = f"{emo.KEY} Private key to identity"
+        msg = f"{emo.KEY} Private key for identity"
         update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
         key = export["result"]
