@@ -125,7 +125,7 @@ class Transactions(IdenaPlugin):
         icon = f"{emo.QUESTION}"
 
         if type == "sendTx":
-            icon = f"{emo.SEND}"
+            icon = f"{emo.PACKAGE}"
         elif type == "send":
             icon = f"{emo.MONEY}"
         elif type == "invite":
@@ -137,9 +137,9 @@ class Transactions(IdenaPlugin):
         elif type == "offline":
             icon = f"{emo.RED}"
         elif type == "submitLongAnswers":
-            icon = f"{emo.LONG}"
+            icon = f"{emo.BLUE}"
         elif type == "submitShortAnswers":
-            icon = f"{emo.SHORT}"
+            icon = f"{emo.ORANGE}"
         elif type == "evidence":
             icon = f"{emo.EYE}"
         elif type == "submitAnswersHash":
@@ -175,6 +175,11 @@ class Transactions(IdenaPlugin):
         try:
             transactions = transactions["result"]["transactions"]
         except:
+            return
+
+        if not transactions:
+            msg = f"{emo.ERROR} No transactions found!"
+            logging.warning(msg)
             return
 
         last = self.config.get("balance_check", "last")
