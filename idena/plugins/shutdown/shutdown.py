@@ -1,3 +1,5 @@
+import os
+import signal
 import threading
 import idena.emoji as emo
 
@@ -19,3 +21,4 @@ class Shutdown(IdenaPlugin):
     def _shutdown_thread(self):
         self._tgb.updater.stop()
         self._tgb.updater.is_idle = False
+        os.kill(os.getpid(), signal.SIGINT)
