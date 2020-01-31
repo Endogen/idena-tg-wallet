@@ -26,7 +26,6 @@ class Balance(IdenaPlugin):
             return
 
         address = address["result"]
-
         balance = self.api().balance(address)
 
         if "error" in balance:
