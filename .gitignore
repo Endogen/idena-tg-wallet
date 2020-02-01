@@ -136,3 +136,4 @@ logs/
 backups/
 qr_codes/
 token.json
+chromedriver
