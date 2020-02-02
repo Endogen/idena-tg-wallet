@@ -1,6 +1,0 @@
-{
-    "handle": "mining",
-    "category": "Node",
-    "description": "Check if node is actively mining",
-    "chrome_path": "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary"
-}
