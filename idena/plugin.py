@@ -82,6 +82,7 @@ class IdenaPlugin:
 
         return jobs[0]
 
+    # TODO: Don't set default for name as plugin name. What if we have more than one?
     def repeat_job(self, callback, interval, first=0, context=None):
         """ Logic that gets executed periodically """
         self._tgb.job_queue.run_repeating(
