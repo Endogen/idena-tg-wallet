@@ -4,3 +4,7 @@ Retry
 watchdog
 python-telegram-bot==11.1.0
 selenium
+pycoingecko
+pandas
+plotly
+psutil
