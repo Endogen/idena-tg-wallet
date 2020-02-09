@@ -229,11 +229,11 @@ class IdenaAPI:
         }
         return self._request(self.url, payload)
 
-    def enode(self, api_key=None):
+    def ipfs_address(self, api_key=None):
         """ Get info abut enode: ID, IP and Port """
         payload = {
             "key": api_key if api_key else self._api_key,
-            "method": "net_enode",
+            "method": "net_ipfsAddress",
             "id": 1
         }
         return self._request(self.url, payload)
