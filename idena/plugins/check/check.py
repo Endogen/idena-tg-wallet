@@ -1,16 +1,15 @@
 import os
-import idena.emoji as emo
+import time
 import logging
+import requests
+import idena.emoji as emo
 
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from datetime import datetime
 from telegram import ParseMode
 from idena.plugin import IdenaPlugin
 
 
 class Check(IdenaPlugin):
-
-    _URL = "https://scan.idena.io/identity?identity="
 
     def __enter__(self):
         if self.config.get("job_autostart"):
@@ -69,7 +68,7 @@ class Check(IdenaPlugin):
                 logging.error(msg)
                 return
 
-            result = self.check_mining(address['result'])
+            result = self.check_online(address['result'])
 
             if result["success"]:
                 if result["message"]:
@@ -91,13 +90,13 @@ class Check(IdenaPlugin):
             logging.error(msg)
             return
 
-        result = self.check_mining(address['result'])
+        result = self.check_online(address['result'])
 
         if result["success"]:
-            mining = result["mining"]
+            online = result["online"]
             last_seen = result["last_seen"]
 
-            if mining and mining != "On":
+            if not online:
                 # Send notification to admins
                 for admin in self.global_config.get("admin", "ids"):
                     try:
@@ -107,33 +106,50 @@ class Check(IdenaPlugin):
                         msg = f"Couldn't send notification that node is not mining to ID {str(admin)}: {e}"
                         logging.warning(msg)
 
-    def check_mining(self, address):
-        options = Options()
-        options.add_argument("--headless")
-        options.binary_location = self.config.get("chrome_path")
+    def check_online(self, address):
+        api_url = self.config.get("api_url")
+        api_url = f"{api_url}{address}"
 
-        path = os.path.join(self.get_res_path(plugin=self.get_name()), "chromedriver")
-
-        result = {"success": None, "message": None, "mining": None, "last_seen": None}
-        driver = None
+        result = {
+            "success": None,
+            "message": None,
+            "online": None,
+            "last_seen": None
+        }
 
         try:
-            driver = webdriver.Chrome(executable_path=path, chrome_options=options)
-            driver.get(f"{self._URL}{address}")
-
-            mining = driver.find_element_by_id("OnlineMinerStatus").text
-            last_seen = driver.find_element_by_id("LastSeen").text
+            # Read IDENA explorer API to know when node was last seen
+            response = requests.get(api_url, timeout=self.config.get("api_timeout")).json()
         except Exception as e:
-            msg = f"{emo.ERROR} Not possible to read 'Last Seen' date: {e}"
+            msg = f"{address} Could not reach API: {e}"
+            logging.error(msg)
+            return
 
+        # If no last seen date-time, stop to watch node
+        if not response or not response["result"] or not response["result"]["lastActivity"]:
+            msg = "No 'Last Seen' date. Can not watch node"
+            logging.error(f"{address} {msg}")
             result["success"] = False
             result["message"] = msg
-
-            logging.error(msg)
             return result
-        finally:
-            if driver:
-                driver.close()
+
+        result["success"] = True
+        result["online"] = response["result"]["online"]
+        result["last_seen"] = response["result"]["lastActivity"]
+
+        # Extract last seen date-time and convert it to seconds
+        last_seen = response["result"]["lastActivity"].split(".")[0]
+        last_seen_date = datetime.strptime(last_seen, "%Y-%m-%dT%H:%M:%S")
+        last_seen_sec = (last_seen_date - datetime(1970, 1, 1)).total_seconds()
+
+        # Load allowed time delta and calculate actual time delta
+        allowed_delta = int(self.config.get("time_delta"))
+        current_delta = int(time.time() - last_seen_sec)
+
+        # Allowed time delta exceeded --> node is offline
+        if current_delta > allowed_delta:
+            if job.context['online']:
+                job.context['online'] = False
 
         result["success"] = True
 
