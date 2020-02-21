@@ -3,6 +3,7 @@
     "category": "Node",
     "description": "Check if node is actively mining",
     "api_url": "https://api2.idena.io/api/OnlineIdentity/",
+    "api_timeout": 5,
     "job_autostart": false,
     "job_running": false,
     "job_interval": 60,
