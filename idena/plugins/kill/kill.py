@@ -8,12 +8,13 @@ from idena.plugin import IdenaPlugin
 
 class Kill(IdenaPlugin):
 
-    _CANCEL = "cancel"
+    CANCEL = "cancel"
 
     def __enter__(self):
         self.add_handler(CallbackQueryHandler(self._callback))
         return self
 
+    @IdenaPlugin.owner
     @IdenaPlugin.threaded
     @IdenaPlugin.send_typing
     def execute(self, bot, update, args):
@@ -36,7 +37,7 @@ class Kill(IdenaPlugin):
 
         keyboard_markup = [[
             InlineKeyboardButton(kill, callback_data=address),
-            InlineKeyboardButton(cancel, callback_data=self._CANCEL)]]
+            InlineKeyboardButton(cancel, callback_data=self.CANCEL)]]
 
         return InlineKeyboardMarkup(keyboard_markup, resize_keyboard=True)
 
@@ -44,7 +45,7 @@ class Kill(IdenaPlugin):
         query = update.callback_query
         message = query.message
 
-        if not query.data or query.data == self._CANCEL:
+        if not query.data or query.data == self.CANCEL:
             message.delete()
             return
 

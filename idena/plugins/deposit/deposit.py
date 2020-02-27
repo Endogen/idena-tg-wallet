@@ -10,23 +10,24 @@ from MyQR import myqr
 
 class Deposit(IdenaPlugin):
 
-    QRCODES_DIR = "qr_codes"
-    TRON_LOGO = "idena.png"
+    QR_DIR = "qr_codes"
+    LOGO = "idena.png"
 
+    @IdenaPlugin.owner
     @IdenaPlugin.threaded
     @IdenaPlugin.send_typing
     def execute(self, bot, update, args):
         user_id = update.effective_user.id
 
         # Create directory for qr-code images
-        qr_dir = os.path.join(self.get_plg_path(), self.QRCODES_DIR)
+        qr_dir = os.path.join(self.get_plg_path(), self.QR_DIR)
         os.makedirs(qr_dir, exist_ok=True)
 
         # Get file and path of qr-code image
         qr_name = f"{user_id}.png"
         qr_code = os.path.join(qr_dir, qr_name)
 
-        logo = os.path.join(self.get_plg_path(), con.DIR_RES, self.TRON_LOGO)
+        logo = os.path.join(self.get_plg_path(), con.DIR_RES, self.LOGO)
 
         address = self.api().address()
 

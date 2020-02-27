@@ -8,7 +8,7 @@ from idena.plugin import IdenaPlugin
 
 class Transactions(IdenaPlugin):
 
-    _URL = "https://scan.idena.io/tx?tx="
+    URL = "https://scan.idena.io/tx?tx="
 
     hash = None
     count = None
@@ -19,6 +19,7 @@ class Transactions(IdenaPlugin):
             self.repeat_job(self._balance_check, interval)
         return self
 
+    @IdenaPlugin.owner
     @IdenaPlugin.threaded
     @IdenaPlugin.send_typing
     def execute(self, bot, update, args):
@@ -121,7 +122,7 @@ class Transactions(IdenaPlugin):
     def _create_message(self, update, transaction):
         type = transaction["type"]
         date = transaction["timestamp"]
-        link = f"{self._URL}{transaction['hash']}"
+        link = f"{self.URL}{transaction['hash']}"
         icon = f"{emo.QUESTION}"
 
         if type == "sendTx":

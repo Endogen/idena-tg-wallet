@@ -1,5 +1,4 @@
 import io
-import threading
 import pandas as pd
 import plotly.io as pio
 import plotly.graph_objs as go
@@ -14,9 +13,10 @@ from idena.plugin import IdenaPlugin
 
 class Chart(IdenaPlugin):
 
-    CG_ID = "idena"
+    CGID = "idena"
     BASE = "btc"
 
+    @IdenaPlugin.owner
     @IdenaPlugin.threaded
     @IdenaPlugin.send_typing
     def execute(self, bot, update, args):
@@ -36,8 +36,8 @@ class Chart(IdenaPlugin):
             time_frame = 3  # Days
 
         try:
-            info = CoinGeckoAPI().get_coin_by_id(self.CG_ID)
-            market = CoinGeckoAPI().get_coin_market_chart_by_id(self.CG_ID, self.BASE, time_frame)
+            info = CoinGeckoAPI().get_coin_by_id(self.CGID)
+            market = CoinGeckoAPI().get_coin_market_chart_by_id(self.CGID, self.BASE, time_frame)
         except Exception as e:
             return self.notify(e)
 

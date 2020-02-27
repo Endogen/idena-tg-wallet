@@ -11,6 +11,7 @@ class Price(IdenaPlugin):
     CG_ID = "idena"
     CG_URL = "https://www.coingecko.com/coins/idena"
 
+    @IdenaPlugin.owner
     @IdenaPlugin.threaded
     @IdenaPlugin.send_typing
     def execute(self, bot, update, args):

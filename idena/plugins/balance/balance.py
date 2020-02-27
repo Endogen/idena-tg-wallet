@@ -13,6 +13,7 @@ class Balance(IdenaPlugin):
             self.repeat_job(self._balance_check, interval)
         return self
 
+    @IdenaPlugin.owner
     @IdenaPlugin.threaded
     @IdenaPlugin.send_typing
     def execute(self, bot, update, args):

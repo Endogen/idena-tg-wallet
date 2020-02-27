@@ -20,6 +20,7 @@ class Check(IdenaPlugin):
             self.config.set(True, "job_running")
         return self
 
+    @IdenaPlugin.owner
     @IdenaPlugin.threaded
     @IdenaPlugin.send_typing
     def execute(self, bot, update, args):

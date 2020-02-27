@@ -6,6 +6,6 @@
     "balance_check": {
         "active": true,
         "interval": 20,
-        "last": 0
+        "last": 1582238971
     }
 }

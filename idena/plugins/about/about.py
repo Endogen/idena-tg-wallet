@@ -6,6 +6,7 @@ class About(IdenaPlugin):
 
     INFO_FILE = "info.md"
 
+    @IdenaPlugin.owner
     @IdenaPlugin.threaded
     @IdenaPlugin.send_typing
     def execute(self, bot, update, args):
