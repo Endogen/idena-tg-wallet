@@ -75,7 +75,7 @@ class Check(IdenaPlugin):
                 if result["message"]:
                     msg = result["message"]
                 else:
-                    msg = f"Mining Status: `{result['mining']}`\n" \
+                    msg = f"Mining Status: `{result['online']}`\n" \
                           f"Last Seen: `{result['last_seen']}`"
             else:
                 msg = f"{emo.ERROR} {result['message']}"
